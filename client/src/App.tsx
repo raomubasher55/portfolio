@@ -9,7 +9,7 @@ import Projects from "@/pages/projects";
 import NotFound from "@/pages/not-found";
 import Languages from "./pages/languages";
 import Footer from './components/layout/footer';
-import Navbar from './components/layout/Navbar';
+import Navbar from './components/layout/navbar';
 
 function Router() {
   return (
