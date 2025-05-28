@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { ChevronRight, Github, Linkedin, Twitter, Mail } from "lucide-react";
+import { ChevronRight, Github, Linkedin, Facebook, Mail, Phone } from "lucide-react";
 
 const FOOTER_LINKS = [
   { label: "Home", href: "/" },
@@ -10,9 +10,9 @@ const FOOTER_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { label: "GitHub", href: "#", icon: Github },
-  { label: "LinkedIn", href: "#", icon: Linkedin },
-  { label: "Twitter", href: "#", icon: Twitter },
+  { label: "GitHub", href: "https://github.com/raomubasher55", icon: Github },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/raomubasher/", icon: Linkedin },
+  { label: "Facebook", href: "https://www.facebook.com/raomubasher55", icon: Facebook },
 ];
 
 export default function Footer() {
@@ -71,27 +71,40 @@ export default function Footer() {
               <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground/80 mb-4">
                 Let's Connect
               </h3>
-              <div className="flex gap-4">
+              <div className="flex flex-col gap-4">
+                {/* Social Link Items with Labels */}
                 {SOCIAL_LINKS.map((social) => {
                   const Icon = social.icon;
                   return (
                     <a
                       key={social.label}
                       href={social.href}
-                      className="p-2 rounded-lg bg-foreground/5 hover:bg-foreground/10 transition-colors duration-300 group relative"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 group transition-colors duration-300"
                     >
-                      <Icon className="w-5 h-5 text-muted-foreground group-hover:text-primary" />
-                      <div className="absolute inset-0 rounded-lg ring-1 ring-inset ring-foreground/5 group-hover:ring-primary/30 transition-all duration-300" />
+                      <div className="p-2 rounded-lg bg-foreground/5 group-hover:bg-foreground/10 transition-colors duration-300 relative">
+                        <Icon className="w-5 h-5 text-primary" />
+                        <div className="absolute inset-0 rounded-lg ring-1 ring-inset ring-foreground/5 group-hover:ring-primary/30 transition-all duration-300" />
+                      </div>
+                      <span className="text-sm text-muted-foreground group-hover:text-primary transition-colors duration-300">
+                        {social.label}
+                      </span>
                     </a>
                   );
                 })}
               </div>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300">
-                <Mail className="w-4 h-4" />
-                <a href="mailto:raomubasher5555@gmail.com">raomubasher5555@gmail.com</a>
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground group">
+                <Mail className="w-4 h-4 text-primary" />
+                <a href="mailto:raomubasher5555@gmail.com" className="hover:text-primary transition-colors duration-300">raomubasher5555@gmail.com</a>
+              </div>
+              
+              <div className="flex items-center gap-2 text-sm text-muted-foreground group">
+                <Phone className="w-4 h-4 text-primary" />
+                <a href="tel:+923241283937" className="hover:text-primary transition-colors duration-300">+92 324 1283937</a>
               </div>
             </div>
           </div>

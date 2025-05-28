@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function Scene3D() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -11,6 +12,7 @@ export default function Scene3D() {
   const particlesRef = useRef<THREE.Points>();
   const mouseRef = useRef({ x: 0, y: 0 });
   const timeRef = useRef(0);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -29,12 +31,15 @@ export default function Scene3D() {
     camera.position.z = 5;
     cameraRef.current = camera;
 
-    // Renderer setup
+    // Renderer setup with performance optimizations
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
-      antialias: true
+      antialias: window.devicePixelRatio < 2, // Only use antialiasing for lower pixel ratios
+      powerPreference: "high-performance", // Prefer GPU performance
+      precision: "mediump" // Use medium precision for better performance
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
+    // Limit pixel ratio for better performance
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     containerRef.current.appendChild(renderer.domElement);
     rendererRef.current = renderer;
@@ -55,9 +60,9 @@ export default function Scene3D() {
     const glowTexture = new THREE.CanvasTexture(glowCanvas);
     glowTexture.needsUpdate = true;
 
-    // Particles
+    // Particles - Reduce count on mobile for better performance
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 3000; // Increased particle count
+    const particlesCount = isMobile ? 1000 : 3000; // Reduced count for mobile devices
     const positions = new Float32Array(particlesCount * 3);
     const colors = new Float32Array(particlesCount * 3);
     const sizes = new Float32Array(particlesCount);
@@ -113,20 +118,34 @@ export default function Scene3D() {
 
     // --- End of Shooting Star setup ---
 
-    // Mouse move handler with parallax effect
+    // Mouse move handler with parallax effect - optimized with throttling
+    let lastMouseMoveTime = 0;
+    const mouseMoveThrottle = 16; // ~60fps
+
     const handleMouseMove = (event: MouseEvent) => {
+      const now = Date.now();
+      // Skip if too soon (throttle)
+      if (now - lastMouseMoveTime < mouseMoveThrottle) return;
+      lastMouseMoveTime = now;
+      
       mouseRef.current.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouseRef.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-      // Add parallax to camera
+      // Add parallax to camera - less movement on mobile
+      const parallaxStrength = isMobile ? 0.3 : 0.5;
+      
       gsap.to(camera.position, {
-        x: mouseRef.current.x * 0.5,
-        y: mouseRef.current.y * 0.5,
+        x: mouseRef.current.x * parallaxStrength,
+        y: mouseRef.current.y * parallaxStrength,
         duration: 1,
         ease: "power2.out"
       });
     };
-    window.addEventListener('mousemove', handleMouseMove);
+    
+    // Only add mouse parallax on non-mobile devices
+    if (!isMobile) {
+      window.addEventListener('mousemove', handleMouseMove);
+    }
 
     // Animation loop
     let frame = 0;
@@ -172,10 +191,10 @@ export default function Scene3D() {
       }
 
       // --- Update Shooting Stars ---
-      // Randomly spawn a shooting star with a low probability
-      if (Math.random() < 0.001) {
+      // Randomly spawn a shooting star with a low probability (less on mobile)
+      if (Math.random() < (isMobile ? 0.0005 : 0.001)) {
         // Create a small glowing shooting star (a small sphere)
-        const starGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+        const starGeometry = new THREE.SphereGeometry(0.05, isMobile ? 4 : 8, isMobile ? 4 : 8);
         const starMaterial = new THREE.MeshBasicMaterial({
           color: 0xffffff,
           transparent: true,
@@ -246,9 +265,14 @@ export default function Scene3D() {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
+      // Only remove if it was added
+      if (!isMobile) {
+        window.removeEventListener('mousemove', handleMouseMove);
+      }
       cancelAnimationFrame(frame);
-      containerRef.current?.removeChild(renderer.domElement);
+      if (containerRef.current && renderer.domElement.parentNode === containerRef.current) {
+        containerRef.current.removeChild(renderer.domElement);
+      }
     };
   }, []);
 

@@ -10,6 +10,7 @@ import NotFound from "@/pages/not-found";
 import Languages from "./pages/languages";
 import Footer from './components/layout/footer';
 import Navbar from './components/layout/navbar';
+import ChatbotPopup from './components/chatbot/ChatbotPopup';
 
 function Router() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Router />
         </main>
         <Footer />
+        <ChatbotPopup />
       </div>
       <Toaster />
     </QueryClientProvider>

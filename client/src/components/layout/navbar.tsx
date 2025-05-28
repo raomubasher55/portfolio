@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronRight , Moon ,Sun } from "lucide-react";
+import { Menu, X, ChevronRight, Moon, Sun, Github, Linkedin, Facebook, Phone } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const NAV_ITEMS = [
@@ -78,45 +78,92 @@ export default function Navbar() {
             </span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-12">
-            {NAV_ITEMS.map((item) => (
-              <Link key={item.href} href={item.href}>
-                <span className={`text-sm font-medium relative group cursor-pointer overflow-hidden
-                  ${location === item.href ? "text-primary" : "text-foreground/90"}`}>
-                  
-                  <span className="relative z-10 block transition-all duration-500 group-hover:text-primary px-3 py-2 font-bold text-lg
-                    group-hover:[transform:rotateX(15deg)_skewY(-3deg)_translateZ(30px)_scale(1.05)]">
-                    {item.label}
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
+            {/* Main navigation */}
+            <div className="flex items-center gap-4 lg:gap-6">
+              {NAV_ITEMS.map((item) => (
+                <Link key={item.href} href={item.href}>
+                  <span className={`text-sm font-medium relative group cursor-pointer overflow-hidden
+                    ${location === item.href ? "text-primary" : "text-foreground/90"}`}>
+                    
+                    <span className="relative z-10 block transition-all duration-500 group-hover:text-primary px-3 py-2 font-bold text-lg
+                      group-hover:[transform:rotateX(15deg)_skewY(-3deg)_translateZ(30px)_scale(1.05)]">
+                      {item.label}
+                    </span>
+                    
+                    {/* Fire Effect Underline */}
+                    <span className={`absolute bottom-0 left-0 h-[2px] bg-[length:200%_100%] 
+                      bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500
+                      transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700
+                      ${location !== item.href ? "animate-gradient-flow w-full" : "w-1/2 bg-gradient-to-r from-primary via-purple-500 to-pink-500"}
+                      group-hover:opacity-100 ${location === item.href ? "opacity-100" : "opacity-0"}`} />
+                    
+                    {/* Original Underline for Active State */}
+                    {location === item.href && (
+                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary via-purple-500 to-pink-500" />
+                    )}
+                    
+                    {/* Existing effects */}
+                    <span className={`absolute inset-0 bg-[radial-gradient(circle_at_center,_#6366f180_0%,_transparent_100%)]
+                      opacity-0 group-hover:opacity-100 transition-opacity duration-500 group-hover:animate-pulse`} />
+                    
+                    <span className="absolute inset-0 border-2 border-primary/20 rounded-xl opacity-0 group-hover:opacity-100 
+                      transition-opacity duration-500 [box-shadow:_0_0_30px_rgba(99,102,241,0.2)]" />
                   </span>
-                  
-                  {/* Fire Effect Underline */}
-                  <span className={`absolute bottom-0 left-0 h-[2px] bg-[length:200%_100%] 
-                    bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500
-                    transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700
-                    ${location !== item.href ? "animate-gradient-flow w-full" : "w-1/2 bg-gradient-to-r from-primary via-purple-500 to-pink-500"}
-                    group-hover:opacity-100 ${location === item.href ? "opacity-100" : "opacity-0"}`} />
-                  
-                  {/* Original Underline for Active State */}
-                  {location === item.href && (
-                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary via-purple-500 to-pink-500" />
-                  )}
-                  
-                  {/* Existing effects */}
-                  <span className={`absolute inset-0 bg-[radial-gradient(circle_at_center,_#6366f180_0%,_transparent_100%)]
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-500 group-hover:animate-pulse`} />
-                  
-                  <span className="absolute inset-0 border-2 border-primary/20 rounded-xl opacity-0 group-hover:opacity-100 
-                    transition-opacity duration-500 [box-shadow:_0_0_30px_rgba(99,102,241,0.2)]" />
-                </span>
-              </Link>
-            ))}
-             <button 
-                    onClick={toggleDarkMode}
-                    className="p-2 rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
-                    aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
-                  >
-                    {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-                  </button>
+                </Link>
+              ))}
+            </div>
+            
+            {/* Contact and Social links */}
+            <div className="flex items-center gap-2 border-l border-muted pl-4">
+              {/* Phone number */}
+              <a 
+                href="tel:+923241283937" 
+                className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
+                aria-label="Call me"
+              >
+                <Phone size={16} className="text-primary" />
+                <span className="text-sm font-medium text-foreground/80 hidden xl:inline">+92 324 1283937</span>
+              </a>
+              
+              {/* Social Icons */}
+              <a 
+                href="https://github.com/raomubasher55" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-2 rounded-full hover:bg-muted/30 transition-colors"
+                aria-label="GitHub Profile"
+              >
+                <Github size={18} className="text-muted-foreground hover:text-primary transition-colors" />
+              </a>
+              <a 
+                href="https://www.linkedin.com/in/raomubasher/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-2 rounded-full hover:bg-muted/30 transition-colors"
+                aria-label="LinkedIn Profile"
+              >
+                <Linkedin size={18} className="text-muted-foreground hover:text-primary transition-colors" />
+              </a>
+              <a 
+                href="https://www.facebook.com/raomubasher55" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-2 rounded-full hover:bg-muted/30 transition-colors"
+                aria-label="Facebook Profile"
+              >
+                <Facebook size={18} className="text-muted-foreground hover:text-primary transition-colors" />
+              </a>
+            </div>
+            
+            {/* Theme toggle */}
+            {/* <button 
+              onClick={toggleDarkMode}
+              className="p-2 rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+              aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+            </button> */}
           </div>
 
           <Button
@@ -164,7 +211,8 @@ export default function Navbar() {
               animate-float
           `}
       >
-        <div className="container py-6 space-y-4 ">
+        <div className="container py-6 space-y-4">
+          {/* Navigation items */}
           {NAV_ITEMS.map((item, index) => (
             <Link
               key={item.href}
@@ -189,6 +237,73 @@ export default function Navbar() {
               </span>
             </Link>
           ))}
+          
+          {/* Contact and Social Links */}
+          <div className="mt-8 pt-4 border-t border-muted/20">
+            <h3 className="px-6 text-sm font-semibold text-muted-foreground mb-4">Connect with me</h3>
+            
+            {/* Phone number - prominent placement */}
+            <div className="mb-6 flex justify-center">
+              <a 
+                href="tel:+923241283937" 
+                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
+              >
+                <Phone size={18} className="text-primary" />
+                <span className="text-sm font-medium">+92 324 1283937</span>
+              </a>
+            </div>
+            
+            {/* Social icons */}
+            <div className="flex justify-center gap-4">
+              <a 
+                href="https://github.com/raomubasher55" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-3 rounded-full bg-muted/10 hover:bg-muted/30 transition-colors"
+                aria-label="GitHub Profile"
+              >
+                <Github size={20} className="text-muted-foreground hover:text-primary transition-colors" />
+              </a>
+              <a 
+                href="https://www.linkedin.com/in/raomubasher/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-3 rounded-full bg-muted/10 hover:bg-muted/30 transition-colors"
+                aria-label="LinkedIn Profile"
+              >
+                <Linkedin size={20} className="text-muted-foreground hover:text-primary transition-colors" />
+              </a>
+              <a 
+                href="https://www.facebook.com/raomubasher55" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-3 rounded-full bg-muted/10 hover:bg-muted/30 transition-colors"
+                aria-label="Facebook Profile"
+              >
+                <Facebook size={20} className="text-muted-foreground hover:text-primary transition-colors" />
+              </a>
+            </div>
+          </div>
+          
+          {/* Theme Toggle */}
+          {/* <div className="flex justify-center mt-4">
+            <button 
+              onClick={toggleDarkMode}
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-muted/10 hover:bg-muted/30 transition-colors"
+            >
+              {isDarkMode ? (
+                <>
+                  <Sun size={18} />
+                  <span className="text-sm">Light mode</span>
+                </>
+              ) : (
+                <>
+                  <Moon size={18} />
+                  <span className="text-sm">Dark mode</span>
+                </>
+              )}
+            </button>
+          </div> */}
         </div>
       </div>
     </nav>

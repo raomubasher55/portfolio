@@ -1,14 +1,38 @@
-import Scene3D from "@/components/3d/scene";
+import { lazy, Suspense, useState, useEffect } from 'react';
 import { motion } from "framer-motion";
+import { Link } from "wouter";
 import me from '@/assets/me.jpg';
+
+// Lazy load the 3D scene for better performance
+const Scene3D = lazy(() => import("@/components/3d/scene"));
 
 
 
 export default function Hero() {
+  // Defer loading of 3D scene until after main content is displayed
+  const [showScene, setShowScene] = useState(false);
+  
+  useEffect(() => {
+    // Delay loading the 3D scene for better initial page load
+    const timer = setTimeout(() => {
+      setShowScene(true);
+    }, 100); // Small delay to prioritize content
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
   return (
     <section className="min-h-screen relative flex items-center justify-center overflow-hidden px-4 py-12">
       <div className="absolute inset-0">
-        <Scene3D />
+        {showScene && (
+          <Suspense fallback={
+            <div className="w-full h-full bg-gradient-to-b from-background/90 to-background/70"></div>
+          }>
+            <Scene3D />
+          </Suspense>
+        )}
+        {/* Immediate background fallback until 3D scene loads */}
+        {!showScene && <div className="w-full h-full bg-gradient-to-b from-background/90 to-background/70"></div>}
       </div>
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 max-w-6xl mx-auto">
@@ -39,60 +63,66 @@ export default function Hero() {
               Full-Stack Developer
             </motion.h1>
             
-            <motion.p 
+            <motion.div 
               className="font-sans text-lg sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-8 font-light tracking-wide 
                         [text-shadow:_0_2px_8px_rgba(255,255,255,0.3)] space-y-4 max-w-2xl mx-auto md:mx-0"
-              initial={{ y: 20, opacity: 0 }}
+              initial={{ y: 20, opacity: 1 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
+              transition={{ duration: 0.8 }}
             >
-              <motion.span 
-                className="inline-block mr-2 animate-float"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                🚀
-              </motion.span>
-              
-              <span className="relative inline-block group font-sans font-bold">
-                <span className="bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent relative z-10">
-                  Specializing in
+              <div className="mb-2">
+                <motion.span 
+                  className="inline-block mr-2 animate-float"
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  🚀
+                </motion.span>
+                
+                <span className="relative inline-block group font-sans font-bold">
+                  <span className="bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent relative z-10">
+                    Specializing in
+                  </span>
+                  <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-500" />
                 </span>
-                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-hover:w-full transition-all duration-500" />
-              </span>
+              </div>
 
-              <motion.span 
-                className="font-bold font-sans bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent block mt-2"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
+              <motion.div 
+                className="font-bold font-sans bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent"
+                initial={{ opacity: 1, x: 0 }}
+                animate={{ 
+                  opacity: [0.8, 1, 0.8],
+                  scale: [0.98, 1, 0.98]
+                }}
                 transition={{ 
-                  delay: 0.6,
+                  duration: 3,
                   repeat: Infinity,
                   repeatType: "mirror",
-                  duration: 3,
                   ease: "easeInOut"
                 }}
               >
                 MERN Stack, Mobile, Blockchain & AI Development
-              </motion.span>
-            </motion.p>
+              </motion.div>
+            </motion.div>
 
-            <motion.button
-              className="btn relative overflow-hidden px-6 py-3 sm:px-8 sm:py-4 rounded-xl bg-primary text-primary-foreground
-                         hover:scale-105 hover:shadow-2xl transition-all duration-300 group mx-auto md:mx-0"
-              whileHover={{ 
-                scale: 1.05,
-                rotate: [0, -2, 2, -2, 0] 
-              }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <span className="relative z-10">View Projects</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/30 via-purple-600/30 to-pink-500/30 
-                           opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute inset-0 border-2 border-primary/30 rounded-xl opacity-0 group-hover:opacity-100 
-                           transition-opacity duration-500 animate-pulse" />
-            </motion.button>
+            <Link href="/projects">
+              <motion.button
+                className="btn relative overflow-hidden px-6 py-3 sm:px-8 sm:py-4 rounded-xl bg-primary text-primary-foreground
+                           hover:scale-105 hover:shadow-2xl transition-all duration-300 group mx-auto md:mx-0 cursor-pointer"
+                whileHover={{ 
+                  scale: 1.05,
+                  rotate: [0, -2, 2, -2, 0] 
+                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <span className="relative z-10">View Projects</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/30 via-purple-600/30 to-pink-500/30 
+                             opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 border-2 border-primary/30 rounded-xl opacity-0 group-hover:opacity-100 
+                             transition-opacity duration-500 animate-pulse" />
+              </motion.button>
+            </Link>
           </motion.div>
           <motion.div 
             className="flex-1 flex justify-center mt-8 md:mt-0"
@@ -105,6 +135,9 @@ export default function Hero() {
               <motion.img
                 src={me}
                 alt="Profile"
+                loading="eager" // Prioritize image loading
+                fetchPriority="high" // Signal high priority to browser
+                decoding="async" // Allow browser to decode image asynchronously
                 className="relative z-10 w-full h-full object-cover rounded-full border-4 border-primary/20 drop-shadow-[0_0_20px_rgba(255,255,255,0.8)]"
                 animate={{ 
                   y: [0, -10, 0],

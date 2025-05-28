@@ -18,11 +18,41 @@ export default {
   			'spin-in': 'spinIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
   			'slide-in-spring': 'slideSpring 0.4s cubic-bezier(.25,.1,.25,1.5)',
   			bounce: 'bounce 2s infinite',
+  			'bounce-once': 'bounceOnce 0.5s ease-in-out',
   			'gradient-flow': 'gradientFlow 2s linear infinite',
   			float: 'float 3s ease-in-out infinite',
-  			'pulse-slow': 'pulse-slow 5s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+  			'pulse-slow': 'pulse-slow 5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+  			'glow': 'glow 3s ease-in-out infinite',
+  			'move-x': 'moveX 20s ease-in-out infinite',
+  			'move-y': 'moveY 25s ease-in-out infinite'
   		},
   		keyframes: {
+  			moveX: {
+  				'0%': { transform: 'translateX(-20%)' },
+  				'50%': { transform: 'translateX(20%)' },
+  				'100%': { transform: 'translateX(-20%)' }
+  			},
+  			moveY: {
+  				'0%': { transform: 'translateY(-20%)' },
+  				'50%': { transform: 'translateY(20%)' },
+  				'100%': { transform: 'translateY(-20%)' }
+  			},
+  			glow: {
+  				'0%, 100%': {
+  					opacity: 0.8
+  				},
+  				'50%': {
+  					opacity: 0.4
+  				}
+  			},
+  			bounceOnce: {
+  				'0%, 100%': {
+  					transform: 'translateY(0)'
+  				},
+  				'50%': {
+  					transform: 'translateY(-8px)'
+  				}
+  			},
   			float: {
   				'0%, 100%': {
   					transform: 'translateY(0)'
