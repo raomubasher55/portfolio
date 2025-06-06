@@ -49,11 +49,11 @@ export default function Skills() {
         transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
       />
       {/* Circus Moving Light - sweeps from right to left */}
-      <motion.div
+      {/* <motion.div
         className="absolute bottom-1/3 right-[-100px] w-64 h-64 bg-gradient-to-l from-transparent via-purple-500 to-transparent rounded-full filter blur-3xl opacity-40"
         animate={{ x: ["100%", "-100%"] }}
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-      />
+      /> */}
       {/* Animated Glowing Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <motion.div 

@@ -61,11 +61,11 @@ export default function Languages() {
         />
 
         {/* Circus Moving Light - sweeps from right to left */}
-        <motion.div
+        {/* <motion.div
           className="absolute bottom-1/3 right-[-100px] w-64 h-64 bg-gradient-to-l from-transparent via-purple-500 to-transparent rounded-full filter blur-3xl opacity-30"
           animate={{ x: ["100%", "-100%"] }}
           transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-        />
+        /> */}
 
         {/* Animated Glowing Background */}
         <motion.div 

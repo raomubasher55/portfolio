@@ -101,7 +101,7 @@ const Chatbot: React.FC = () => {
             key={index}
             className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
           >
-            <div className={`flex items-start space-x-2 max-w-[80%] ${message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
+            <div className={`flex items-start space-x-2 max-w-[90%] sm:max-w-[80%] ${message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
               <div className={`p-1.5 rounded-full ${message.type === 'user' ? 'bg-primary' : 'bg-secondary'}`}>
                 {message.type === 'user' ? <User size={16} className="text-primary-foreground" /> : <Bot size={16} className="text-secondary-foreground" />}
               </div>
@@ -110,7 +110,7 @@ const Chatbot: React.FC = () => {
                   ? 'bg-primary text-primary-foreground' 
                   : 'bg-card text-card-foreground shadow-sm'
               }`}>
-                <p className="whitespace-pre-wrap">{message.content}</p>
+                <p className="whitespace-pre-wrap break-words">{message.content}</p>
               </div>
             </div>
           </div>
@@ -118,7 +118,7 @@ const Chatbot: React.FC = () => {
         
         {isLoading && (
           <div className="flex justify-start">
-            <div className="flex items-start space-x-2 max-w-[80%]">
+            <div className="flex items-start space-x-2 max-w-[90%] sm:max-w-[80%]">
               <div className="p-1.5 rounded-full bg-secondary">
                 <Bot size={16} className="text-secondary-foreground" />
               </div>
@@ -154,28 +154,28 @@ const Chatbot: React.FC = () => {
         </div>
         
         {/* Quick Actions */}
-        <div className="mt-2 flex flex-wrap gap-1.5">
+        <div className="mt-2 flex flex-wrap gap-1.5 justify-center sm:justify-start">
           <button
             onClick={() => setQuickMessage("Tell me about yourself")}
-            className="text-xs px-2 py-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-full transition-colors"
+            className="text-xs px-2.5 py-1.5 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-full transition-colors"
           >
             About
           </button>
           <button
             onClick={() => setQuickMessage("What are your skills?")}
-            className="text-xs px-2 py-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-full transition-colors"
+            className="text-xs px-2.5 py-1.5 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-full transition-colors"
           >
             Skills
           </button>
           <button
             onClick={() => setQuickMessage("Tell me about your projects")}
-            className="text-xs px-2 py-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-full transition-colors"
+            className="text-xs px-2.5 py-1.5 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-full transition-colors"
           >
             Projects
           </button>
           <button
             onClick={() => setQuickMessage("What's your experience?")}
-            className="text-xs px-2 py-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-full transition-colors"
+            className="text-xs px-2.5 py-1.5 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-full transition-colors"
           >
             Experience
           </button>

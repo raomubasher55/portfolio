@@ -62,13 +62,13 @@ const ChatbotPopup: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-8 right-8 z-50">
+    <div className="fixed bottom-4 sm:bottom-8 right-16 sm:right-8 z-50">
       {/* Popup Chatbot */}
       <div 
         className={`
           overflow-hidden rounded-2xl shadow-2xl transform transition-all duration-500 ease-in-out
           ${isOpen 
-            ? 'opacity-100 scale-100 h-[600px] w-[360px]' 
+            ? 'opacity-100 scale-100 h-[min(600px,90vh)] w-[min(360px,95vw)]' 
             : 'opacity-0 scale-95 h-0 w-0'
           }
           ${isAnimating ? 'animate-bounce-once' : ''}
@@ -101,7 +101,7 @@ const ChatbotPopup: React.FC = () => {
         <div 
           className="absolute bottom-20 right-0 bg-white dark:bg-card p-3 rounded-lg shadow-lg animate-slide-in-spring mb-2"
           style={{ 
-            maxWidth: '220px',
+            maxWidth: 'min(220px, 70vw)',
             borderRadius: '18px',
             borderBottomRightRadius: '5px',
           }}
@@ -124,17 +124,19 @@ const ChatbotPopup: React.FC = () => {
         <button
           onClick={toggleChatbot}
           className={`
-            p-5 rounded-full bg-gradient-to-r from-primary via-purple-500 to-pink-500 
+            p-4 sm:p-1 rounded-full bg-gradient-to-r from-primary via-purple-500 to-pink-500 
             text-white shadow-lg hover:shadow-xl transition-all duration-300
             flex items-center justify-center
+            right-12
             ${!isOpen ? 'animate-pulse-slow' : ''}
             ${isAnimating && !isOpen ? 'animate-bounce-once' : ''}
           `}
           style={{
             boxShadow: !isOpen ? '0 0 15px rgba(147, 51, 234, 0.5)' : 'none'
           }}
+          aria-label="Toggle chat"
         >
-          <MessageSquare size={32} />
+          <MessageSquare size={28} className="sm:w-8 sm:h-8" />
         </button>
         
         {/* Notification Badge */}

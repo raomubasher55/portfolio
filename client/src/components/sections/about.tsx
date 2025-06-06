@@ -5,7 +5,7 @@ export default function About() {
   return (
     <section id="about" className="relative py-20 bg-muted/50 overflow-hidden">
       {/* Animated Glowing Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <motion.div 
           className="w-full h-full"
           style={{ background: "radial-gradient(circle, rgba(40,0,60,0.6) 0%, rgba(10,10,30,0.4) 70%, transparent 100%)" }}
@@ -15,7 +15,7 @@ export default function About() {
           }}
           transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
         />
-      </div>
+      </div> */}
       {/* Header Blur Overlay */}
       <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-[rgba(40,0,60,0.8)] to-transparent backdrop-blur-xl pointer-events-none animate-glow"></div>
       <div className="container">
